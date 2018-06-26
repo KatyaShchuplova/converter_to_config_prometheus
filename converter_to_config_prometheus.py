@@ -9,7 +9,7 @@ PORT = 9100
 
 
 def create_data_yaml(node):
-    format_line = "[%s:%d]" % (node, PORT)
+    format_line = "%s:%d" % (node, PORT)
     data = [{'targets': format_line, 'labels': {'job': node}}]
     return data
 
@@ -27,6 +27,7 @@ def copy_text():
                 if is_line_valid and not line.isspace():
                     data = create_data_yaml(line.rstrip())
                     yaml.dump(data, out_file, default_flow_style=False)
+                    print(yaml.dump(data, default_flow_style=False))
 
 
 def main():
