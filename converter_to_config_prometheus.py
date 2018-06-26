@@ -1,9 +1,20 @@
 #!/usr/bin/python
 import re
+import yaml
 
-SOURCE_FILE = "source"
-OUT_FILE = "out"
+SOURCE_FILE = "/etc/ansible/hosts"
+OUT_FILE = "targets.yml"
 PORT = 9100
+
+
+def create_dict_yaml(node, port):
+    data = dict(
+        targets='[{0}:{1}]'.format(node, port),
+        labels=dict(
+            jobs=node,
+        )
+    )
+    return data
 
 
 def copy_text():
@@ -17,12 +28,8 @@ def copy_text():
                         is_line_valid = False
                         break
                 if is_line_valid and not line.isspace():
-                    out_file.write(format_line(line.rstrip(), PORT))
-
-
-def format_line(node, port):
-    line = "- targets: ['{0}:{1}']\n  labels:\n      job: {2}\n\n".format(node, port, node)
-    return line
+                    data = create_dict_yaml(line.rstrip(), PORT)
+                    yaml.dump(data, out_file, default_flow_style=False)
 
 
 def main():
