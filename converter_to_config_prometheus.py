@@ -4,8 +4,7 @@ from ruamel_yaml import YAML
 
 
 
-#SOURCE_FILE = "/etc/ansible/hosts"
-SOURCE_FILE = "source"
+SOURCE_FILE = "/etc/ansible/hosts"
 OUT_FILE = "targets.yml"
 PORT = 9100
 
