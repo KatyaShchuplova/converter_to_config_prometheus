@@ -21,7 +21,7 @@ def copy_text():
 
 
 def format_line(node, port):
-    line = "-targets:['{0}:{1}']\n labels:\n   job: {2}\n\n".format(node, port, node)
+    line = "- targets: ['{0}:{1}']\n  labels:\n      job: {2}\n\n".format(node, port, node)
     return line
 
 
