@@ -1,7 +1,6 @@
 #!/usr/bin/python
 import re
-from ruamel_yaml import YAML
-
+import yaml
 
 
 SOURCE_FILE = "/etc/ansible/hosts"
@@ -9,16 +8,9 @@ OUT_FILE = "targets.yml"
 PORT = 9100
 
 
-def create_data_yaml(yaml, node, port):
-    yaml_str = """\
-    targets:
-    labels:
-        job:
-
-    """
-    data = yaml.load(yaml_str)
-    data['targets'] = "[%s:%d]" % (node, port)
-    data['labels']['job'] = node
+def create_data_yaml(node, port):
+    format_line = "[%s:%d]" % (node, PORT)
+    data = [{'targets': format_line, 'labels': {'job': node}}]
     return data
 
 
@@ -33,9 +25,8 @@ def copy_text():
                         is_line_valid = False
                         break
                 if is_line_valid and not line.isspace():
-                    yaml = YAML()
-                    data = create_data_yaml(yaml, line.rstrip(), PORT)
-                    yaml.dump(data, out_file)
+                    data = create_data_yaml(line.rstrip(), PORT)
+                    yaml.dump(data, out_file, default_flow_style=False)
 
 
 def main():
