@@ -9,9 +9,7 @@ PORT = 9100
 
 
 def create_data_yaml(node):
-    format_line = "%s:%d" % (node, PORT)
-    data = [{'targets': format_line, 'labels': {'job': node}}]
-    return data
+    return [{'targets': ["%s:%d" % (node, PORT)], 'labels': {'job': node}}]
 
 
 def copy_text():
